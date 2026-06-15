@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualiza Já - atualizaja.online</title>
+    <!-- Fonte moderna do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========== RESET E VARIÁVEIS GLOBAIS ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-marinho: #0F2B48;
+            --azul-eletrico: #0091FF;
+            --azul-escuro: #0A1E33;
+            --cinza-fundo: #F8FAFC;
+            --cinza-card: #FFFFFF;
+            --cinza-texto: #475569;
+            --cinza-claro: #E2E8F0;
+            --preto-suave: #1E293B;
+            --sombra-suave: 0 2px 8px rgba(15, 43, 72, 0.08);
+            --sombra-media: 0 4px 12px rgba(15, 43, 72, 0.12);
+            --raio-borda: 10px;
+            --transicao: all 0.25s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cinza-fundo);
+            color: var(--preto-suave);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.2rem;
+        }
+
+        /* ========== CABEÇALHO ========== */
+        header {
+            background-color: var(--azul-marinho);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--sombra-media);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: white;
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        .logo svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        #header-date {
+            font-size: 0.95rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transicao);
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--azul-eletrico);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--azul-eletrico);
+            transition: var(--transicao);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* ========== FAIXA DE NOTÍCIAS URGENTES ========== */
+        .breaking-news {
+            background-color: white;
+            border-bottom: 2px solid var(--cinza-claro);
+            padding: 0.7rem 0;
+            margin: 0.8rem 0;
+            box-shadow: var(--sombra-suave);
+        }
+
+        .breaking-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .urgent-label {
+            background-color: #DC2626;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #ticker-text {
+            font-weight: 500;
+            color: var(--preto-suave);
+        }
+
+        /* ========== LAYOUT PRINCIPAL ========== */
+        .main-content {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2.2rem;
+            margin: 2rem 0;
+        }
+
+        /* ========== DESTAQUE PRINCIPAL ========== */
+        #featured-news {
+            background-color: var(--cinza-card);
+            border-radius: var(--raio-borda);
+            box-shadow: var(--sombra-suave);
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+            transition: var(--transicao);
+        }
+
+        #featured-news:hover {
+            box-shadow: var(--sombra-media);
+            transform: translateY(-2px);
+        }
+
+        .featured-wrapper {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 2rem;
+        }
+
+        #featured-img-link {
+            display: block;
+            overflow: hidden;
+        }
+
+        #featured-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        #featured-img-link:hover #featured-img {
+            transform: scale(1.05);
+        }
+
+        .featured-info {
+            padding: 2rem 2rem 2rem 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        #featured-category {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--azul-eletrico);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        #featured-datetime {
+            font-size: 0.9rem;
+            color: var(--cinza-texto);
+        }
+
+        #featured-title {
+            font-size: 2rem;
+            line-height: 1.2;
+            color: var(--azul-escuro);
+        }
+
+        #featured-summary {
+            font-size: 1.05rem;
+            color: var(--cinza-texto);
+            margin-bottom: 1rem;
+        }
+
+        #featured-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--azul-eletrico);
+            color: white;
+            padding: 0.7rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            width: fit-content;
+            transition: var(--transicao);
+        }
+
+        #featured-link:hover {
+            background-color: #0077CC;
+            transform: translateX(3px);
+        }
+
+        /* ========== GRADE DE ÚLTIMAS NOTÍCIAS ========== */
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--azul-escuro);
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--cinza-claro);
+            margin-bottom: 1.5rem;
+        }
+
+        #news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background-color: var(--cinza-card);
+            border-radius: var(--raio-borda);
+            box-shadow: var(--sombra-suave);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transicao);
+        }
+
+        .news-card:hover {
+            box-shadow: var(--sombra-media);
+            transform: translateY(-3px);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover .card-img {
+            transform: scale(1.03);
+        }
+
+        .card-body {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            flex-grow: 1;
+        }
+
+        .card-category {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--azul-eletrico);
+            text-transform: uppercase;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--azul-escuro);
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: auto;
+            color: var(--azul-eletrico);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transicao);
+        }
+
+        .card-link:hover {
+            color: #0077CC;
+            gap: 0.6rem;
+        }
+
+        /* ========== BARRA LATERAL ========== */
+        .sidebar-widget {
+            background-color: var(--cinza-card);
+            border-radius: var(--raio-borda);
+            box-shadow: var(--sombra-suave);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--azul-escuro);
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--cinza-claro);
+            margin-bottom: 1.2rem;
+        }
+
+        /* Mais lidas */
+        #most-read-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .most-read-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .read-position {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--cinza-claro);
+            line-height: 1;
+            min-width: 40px;
+        }
+
+        .read-info h4 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            line-height: 1.4;
+        }
+
+        .read-time {
+            font-size: 0.85rem;
+            color: var(--cinza-texto);
+        }
+
+        /* Newsletter */
+        .newsletter-widget {
+            background: linear-gradient(135deg, var(--azul-marinho), var(--azul-escuro));
+            color: white;
+        }
+
+        .newsletter-widget .widget-title {
+            color: white;
+            border-bottom-color: rgba(255,255,255,0.2);
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .newsletter-form input {
+            padding: 0.9rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .newsletter-form button {
+            background-color: var(--azul-eletrico);
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .newsletter-form button:hover {
+            background-color: #0077CC;
+        }
+
+        /* ========== RODAPÉ ========== */
+        footer {
+            background-color: var(--azul-escuro);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--azul-eletrico);
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .footer-col a {
+            color: #CBD5E1;
+            text-decoration: none;
+            transition: var(--transicao);
+        }
+
+        .footer-col a:hover {
+            color: var(--azul-eletrico);
+            padding-left: 3px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links svg {
+            width: 22px;
+            height: 22px;
+            fill: #CBD5E1;
+            transition: var(--transicao);
+        }
+
+        .social-links a:hover svg {
+            fill: var(--azul-eletrico);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94A3B8;
+            font-size: 0.9rem;
+        }
+
+        /* ========== RESPONSIVIDADE ========== */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-info {
+                padding: 1.5rem;
+            }
+
+            #featured-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            nav ul {
+                gap: 1rem;
+                justify-content: center;
+                width: 100%;
+                margin-top: 0.8rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            #news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==============================================
+CABEÇALHO - ÁREA PARA AUTOMAÇÃO
+IDs: header-date
+============================================== -->
+<header>
+    <div class="container header-content">
+        <a href="/" class="logo">
+            <!-- Ícone SVG do logo -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M2 12h20M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2z"/>
+                <path d="M12 6v6l4 2"/>
+            </svg>
+            Atualiza Já
+        </a>
+        <div id="header-date">15 de junho de 2026, segunda-feira</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/politica">Política</a></li>
+                <li><a href="/economia">Economia</a></li>
+                <li><a href="/esportes">Esportes</a></li>
+                <li><a href="/tecnologia">Tecnologia</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- ==============================================
+FAIXA DE NOTÍCIAS URGENTES - ÁREA PARA AUTOMAÇÃO
+IDs: ticker-text
+============================================== -->
+<section class="breaking-news">
+    <div class="container breaking-content">
+        <span class="urgent-label">Urgente</span>
+        <div id="ticker-text">Obras na BR-116 avançam no sudoeste baiano · Previsão de chuva para toda a região · Novo programa de saúde pública é lançado</div>
+    </div>
+</section>
+
+<!-- ==============================================
+CONTEÚDO PRINCIPAL
+============================================== -->
+<div class="container main-content">
+    <main>
+        <!-- ==============================================
+        DESTAQUE PRINCIPAL - ÁREA PARA AUTOMAÇÃO
+        IDs: featured-news, featured-img-link, featured-img,
+        featured-category, featured-datetime, featured-title,
+        featured-summary, featured-link
+        ============================================== -->
+        <article id="featured-news">
+            <div class="featured-wrapper">
+                <a id="featured-img-link" href="#">
+                    <img id="featured-img" src="https://picsum.photos/id/1018/800/500" alt="Imagem da notícia destaque">
+                </a>
+                <div class="featured-info">
+                    <span id="featured-category">Economia</span>
+                    <div id="featured-datetime">Publicado em 15/06/2026 às 09:42</div>
+                    <h2 id="featured-title">Novo programa de incentivo ao campo chega ao interior da Bahia</h2>
+                    <p id="featured-summary">Medida deve beneficiar mais de 30 mil produtores rurais, com linhas de crédito especiais e suporte técnico gratuito para ampliar a produção e a qualidade dos produtos regionais.</p>
+                    <a id="featured-link" href="#">Leia a matéria completa <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </div>
+        </article>
+
+        <!-- ==============================================
+        GRADE DE ÚLTIMAS NOTÍCIAS - ÁREA PARA AUTOMAÇÃO
+        IDs: news-grid
+        Classe: news-card
+        ============================================== -->
+        <h2 class="section-title">Últimas Notícias</h2>
+        <div id="news-grid">
+            <article class="news-card">
+                <img class="card-img" src="https://picsum.photos/id/1059/400/220" alt="Imagem da notícia">
+                <div class="card-body">
+                    <span class="card-category">Política</span>
+                    <h3 class="card-title">Câmara aprova projeto de infraestrutura para Poções e região</h3>
+                    <a href="#" class="card-link">Leia mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img class="card-img" src="https://picsum.photos/id/1072/400/220" alt="Imagem da notícia">
+                <div class="card-body">
+                    <span class="card-category">Esportes</span>
+                    <h3 class="card-title">Equipes da região se preparam para campeonato estadual</h3>
+                    <a href="#" class="card-link">Leia mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img class="card-img" src="https://picsum.photos/id/118/400/220" alt="Imagem da notícia">
+                <div class="card-body">
+                    <span class="card-category">Tecnologia</span>
+                    <h3 class="card-title">Internet de alta velocidade chega a mais 12 cidades do interior</h3>
+                    <a href="#" class="card-link">Leia mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img class="card-img" src="https://picsum.photos/id/1067/400/220" alt="Imagem da notícia">
+                <div class="card-body">
+                    <span class="card-category">Saúde</span>
+                    <h3 class="card-title">Campanha de vacinação contra gripe é ampliada em todo o estado</h3>
+                    <a href="#" class="card-link">Leia mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img class="card-img" src="https://picsum.photos/id/1005/400/220" alt="Imagem da notícia">
+                <div class="card-body">
+                    <span class="card-category">Cultura</span>
+                    <h3 class="card-title">Festival de arte e cultura movimenta o centro de Vitória da Conquista</h3>
+                    <a href="#" class="card-link">Leia mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img class="card-img" src="https://picsum.photos/id/1084/400/220" alt="Imagem da notícia">
+                <div class="card-body">
+                    <span class="card-category">Clima</span>
+                    <h3 class="card-title">Instituto de meteorologia emite alerta para chuvas intensas no fim de semana</h3>
+                    <a href="#" class="card-link">Leia mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- ==============================================
+    BARRA LATERAL
+    ============================================== -->
+    <aside>
+        <!-- ==============================================
+        MAIS LIDAS - ÁREA PARA AUTOMAÇÃO
+        IDs: most-read-widget, most-read-list
+        ============================================== -->
+        <div id="most-read-widget" class="sidebar-widget">
+            <h3 class="widget-title">Mais Lidas</h3>
+            <ol id="most-read-list">
+                <li class="most-read-item">
+                    <span class="read-position">1</span>
+                    <div class="read-info">
+                        <h4>Novos valores de tarifas de água e energia são divulgados</h4>
+                        <span class="read-time">há 2h</span>
+                    </div>
+                </li>
+                <li class="most-read-item">
+                    <span class="read-position">2</span>
+                    <div class="read-info">
+                        <h4>Resultados do concurso público são liberados nesta terça</h4>
+                        <span class="read-time">há 4h</span>
+                    </div>
+                </li>
+                <li class="most-read-item">
+                    <span class="read-position">3</span>
+                    <div class="read-info">
+                        <h4>Feira de produtos orgânicos ganha novo espaço na cidade</h4>
+                        <span class="read-time">há 6h</span>
+                    </div>
+                </li>
+                <li class="most-read-item">
+                    <span class="read-position">4</span>
+                    <div class="read-info">
+                        <h4>Investimento de R$ 20 milhões chega para educação básica</h4>
+                        <span class="read-time">há 8h</span>
+                    </div>
+                </li>
+                <li class="most-read-item">
+                    <span class="read-position">5</span>
+                    <div class="read-info">
+                        <h4>Obras de revitalização da praça principal começam em julho</h4>
+                        <span class="read-time">há 10h</span>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="sidebar-widget newsletter-widget">
+            <h3 class="widget-title">Receba nossas notícias</h3>
+            <p>Inscreva-se e receba as principais atualizações diretamente no seu e-mail.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Seu melhor e-mail" required>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+    </aside>
+</div>
+
+<!-- ==============================================
+RODAPÉ - ÁREA PARA AUTOMAÇÃO
+IDs: copyright-year
+============================================== -->
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-col">
+            <h4>Atualiza Já</h4>
+            <p>O portal de notícias mais confiável da Bahia, com cobertura local, regional e nacional.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Editorias</h4>
+            <ul>
+                <li><a href="/">Início</a></li>
+                <li><a href="/politica">Política</a></li>
+                <li><a href="/economia">Economia</a></li>
+                <li><a href="/esportes">Esportes</a></li>
+                <li><a href="/tecnologia">Tecnologia</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Portal</h4>
+            <ul>
+                <li><a href="/sobre">Sobre nós</a></li>
+                <li><a href="/contato">Contato</a></li>
+                <li><a href="/anuncie">Anuncie aqui</a></li>
+                <li><a href="/trabalhe">Trabalhe conosco</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="/termos">Termos de uso</a></li>
+                <li><a href="/privacidade">Política de privacidade</a></li>
+                <li><a href="/direitos">Direitos autorais</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container copyright">
+        <p>&copy; <span id="copyright-year">2026</span> Atualiza Já - atualizaja.online. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+</body>
+</html>
