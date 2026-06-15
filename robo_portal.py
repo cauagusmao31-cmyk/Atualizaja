@@ -25,7 +25,7 @@ def data_atual_por_extenso():
         "Quinta-feira", "Sexta-feira", "Sábado"
     ]
     agora = datetime.now()
-    return f"{dias_semana[agora.weekday()]}, {agora.day} de {meses[agora.month-1]} de {agora.year}"
+    return f"{dias_semana[agora.weekday()]}h, {agora.day} de {meses[agora.month-1]} de {agora.year}"
 
 def extrair_imagem_do_conteudo(conteudo):
     """Busca primeira imagem .jpg/.png dentro do conteúdo da notícia"""
@@ -102,7 +102,7 @@ if el_destaque and len(feed.entries) >= 1:
     el_destaque.find(id="featured-img")["alt"] = principal.title
     el_destaque.find(id="featured-link")["href"] = principal.link
 
-# Grade de últimas notícias
+# Grade de últimas notícias (CORRIGIDO SEM CONFLITO DE CHAVES)
 el_grade = soup.find(id="news-grid")
 if el_grade and len(feed.entries) >= 7:
     el_grade.clear()  # remove cards antigos
@@ -110,15 +110,16 @@ if el_grade and len(feed.entries) >= 7:
         categoria = noticia.get("category", "Geral")
         imagem = extrair_imagem_do_conteudo(noticia.get("summary", ""))
 
+        # Montando o HTML concatenando strings normais para evitar erro de chaves do SVG
+        html_card = '<img class="card-img" src="' + imagem + '" alt="' + noticia.title + '">'
+        html_card += '<div class="card-body">'
+        html_card += '    <span class="card-category">' + categoria + '</span>'
+        html_card += '    <h3 class="card-title">' + noticia.title + '</h3>'
+        html_card += '    <a href="' + noticia.link + '" class="card-link">Leia mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>'
+        html_card += '</div>'
+
         card = soup.new_tag("article", attrs={"class": "news-card"})
-        card.append(BeautifulSoup(f'''
-            <img class="card-img" src="{imagem}" alt="{noticia.title}">
-            <div class="card-body">
-                <span class="card-category">{categoria}</span>
-                <h3 class="card-title">{noticia.title}</h3>
-                <a href="{noticia.link}" class="card-link">Leia mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-            </div>
-        ''', "lxml"))
+        card.append(BeautifulSoup(html_card, "lxml"))
         el_grade.append(card)
 
 # Lista de mais lidas
@@ -126,14 +127,14 @@ el_mais_lidas = soup.find(id="most-read-list")
 if el_mais_lidas and len(feed.entries) >= 12:
     el_mais_lidas.clear()
     for pos, noticia in enumerate(feed.entries[7:12], start=1):
+        html_item = '<span class="read-position">' + str(pos) + '</span>'
+        html_item += '<div class="read-info">'
+        html_item += '    <h4>' + noticia.title + '</h4>'
+        html_item += '    <span class="read-time">' + tempo_publicacao(noticia.published_parsed) + '</span>'
+        html_item += '</div>'
+
         item = soup.new_tag("li", attrs={"class": "most-read-item"})
-        item.append(BeautifulSoup(f'''
-            <span class="read-position">{pos}</span>
-            <div class="read-info">
-                <h4>{noticia.title}</h4>
-                <span class="read-time">{tempo_publicacao(noticia.published_parsed)}</span>
-            </div>
-        ''', "lxml"))
+        item.append(BeautifulSoup(html_item, "lxml"))
         el_mais_lidas.append(item)
 
 # ----------------------
